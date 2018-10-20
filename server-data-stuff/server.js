@@ -33,7 +33,8 @@ app.use(function(req, res, next) {
 
 // allows requesting of ./data/alumni.json file
 app.get('/api/datad', (req,res, next) => {
-  readJSONFile('./data/data_2007_corrected.json', function (err, json) {
+  // readJSONFile('./data/data_2007_corrected.json', function (err, json) {
+    readJSONFile('./data/testing.json', function (err, json) {
     if(err) { throw err; }
     res.send(json)
   });

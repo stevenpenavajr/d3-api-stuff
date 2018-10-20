@@ -1,5 +1,42 @@
 var api = 'http://localhost:3000/api/datad';
 
+
+
+function drawAxisTickColors() {
+    // Load the Visualization API and the piechart package.
+    google.charts.load('current', {
+        'packages': ['corechart']
+    });
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+
+    drawChart();
+    setInterval(drawChart, 1000);
+
+    function drawChart() {
+        var jsonData = $.ajax({
+            url: "http://localhost:3000/api/datad",
+            dataType: "json",
+            async: false
+        }).responseText;
+
+        // Create our data table out of JSON data loaded from server.
+        var data = new google.visualization.DataTable(jsonData);
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+
+
+        chart.draw(data, {
+            width: 400,
+            height: 240
+        });
+    }
+}
+
+
+
 document.addEventListener('DOMContentLoaded', function (event) {
     fetch(api)
         .then(function (response) {
@@ -10,7 +47,10 @@ document.addEventListener('DOMContentLoaded', function (event) {
             drawChart(parsedData);
         })
 
-
+    google.charts.load('current', {
+        packages: ['corechart', 'line']
+    });
+    google.charts.setOnLoadCallback(drawAxisTickColors);
 
 });
 
