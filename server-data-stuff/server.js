@@ -3,38 +3,15 @@ const bodyParser = require('body-parser')
 const fs = require('fs')
 const app = express()
 var WSS = require('ws').Server;
-
-// Start the server
-var wss = new WSS({ port: 3001 });
-
-// When a connection is established
-wss.on('connection', function(socket) {
-  console.log('Opened connection ');
-  piChartData = readJSONFile('./data/testing.json', function (err, json) {
-    if(err) { throw err; }
-  })
-  // Send data back to the client
-  socket.send(piChartData);
-
-  // When data is received
-  socket.on('message', function(message) {
-    setInterval(broadcast,1000);
-  });
-
-  // The connection was closed
-  socket.on('close', function() {
-    console.log('Closed Connection ');
-  });
-});
-
+var pieChartData;
 
 // Every three seconds broadcast "{ message: 'Hello hello!' }" to all connected clients
 var broadcast = function() {
   // piChartData.rows[0].c[1].v++;
   // wss.clients is an array of all connected clients
   wss.clients.forEach(function each(client) {
-    client.send(JSON.stringify(piChartData));
-    console.log('Sent: ' + piChartData);
+    client.send(JSON.stringify(pieChartData));
+    console.log('Sent: ' + pieChartData);
   });
 }
 
@@ -68,3 +45,35 @@ app.use(function(req, res, next) {
 });
 
 app.listen(3000, () => console.log('Server running on port 3000'))
+
+// Start the server
+var wss = new WSS({ port: 3001 });
+
+// When a connection is established
+wss.on('connection', function(socket) {
+  console.log('Opened connection ');
+  readJSONFile('./data/testing.json', function (err, json) {
+    if(err){
+      throw err;
+    }
+    // Send data back to the client
+    socket.send(JSON.stringify(json));
+    piChartData = json;
+  });
+
+
+
+  // When data is received
+  socket.on('message', function(message) {
+    setInterval(broadcast,1000);
+  });
+
+  // The connection was closed
+  socket.on('close', function() {
+    console.log('Closed Connection ');
+  });
+});
+
+app.get("/test",(req,res) =>{
+  res.send("Test");
+})
