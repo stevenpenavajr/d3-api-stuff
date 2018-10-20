@@ -24,16 +24,16 @@ function readJSONFile(filename, callback) {
   });
 }
 
-//allows Cross Origin Requests to obtain JSON data
+// allows Cross Origin Requests to obtain JSON data
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
 
-//allows requesting of ./data/alumni.json file
+// allows requesting of ./data/alumni.json file
 app.get('/api/datad', (req,res, next) => {
-  readJSONFile('./data/datad07_new.json', function (err, json) {
+  readJSONFile('./data/data_2007_corrected.json', function (err, json) {
     if(err) { throw err; }
     res.send(json)
   });
