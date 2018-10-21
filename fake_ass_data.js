@@ -3,7 +3,8 @@
 const ilp = require("ilp");
 const spsp = require("ilp-protocol-spsp");
 const debug = require("debug")("ilp-spsp");
-var sleep = require('sleep');
+
+var iternations = 0;
 
 // recipient is the payment pointer
 // amount is 1 XRP = 10^9 units
@@ -47,9 +48,15 @@ var hour = 17,
   min = 30,
   currentRead = 6348;
 
-for (var i = 0; i < 5; i++) {
+var loopiter = setInterval(function() {
 
-	sleep.sleep(2); // sleep for ten seconds
+  if (iternations > 60) {
+    clearInterval(loopiter);
+    process.exit(1);
+  }
+
+  iternations += 1;
+
   var rateAmount = Math.random() * Math.floor(20) + 10; // (0-1) * max + min
   if (22 < rateAmount <= 30) var priceType = "peak";
   else var priceType = "off peak";
@@ -89,4 +96,4 @@ for (var i = 0; i < 5; i++) {
   var moneyOwned = Math.floor(meterDelta * rateAmount * xrp * Math.pow(10, 9));
   console.log("money: " + moneyOwned.toString() + "\n");
   run(moneyOwned);
-}
+}, 2000);
