@@ -25,7 +25,6 @@ function readJSONFile(filename, callback) {
 }
 
 app.use(bodyParser.json());
-app.use(express.static(__dirname + '/public'));
 // allows Cross Origin Requests to obtain JSON data
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -33,8 +32,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get("/", (req,res) => {
-  res.sendfile(__dirname + '/public/index.html');
-})
+app.use("/", express.static('../public'));
 
 app.listen(3000, () => console.log('Server running on port 3000'))
