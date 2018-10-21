@@ -50,6 +50,9 @@ var numOfDays = 183
 var hour = 17
 var min = 30
 var currentRead = 6348;
+var month = 5
+var day = 5
+var year = 2017
 
 var loopiter = setInterval(function() {
 
@@ -66,7 +69,8 @@ var loopiter = setInterval(function() {
 
   var meterDelta = Math.random() * (0.02048326 * 2) + 0.005; // 0.02048326 avg kWh/min in USA
 
-  var dateTime = "12/16/2007 " + hour.toString() + ":" + min.toString() + ':00"';
+  var dateTime = month.toString() + "/" + day.toString() + "/" +
+				year.toString() + hour.toString() + ":" + min.toString() + ':00"';
   var priceType = priceType;
   var rateAmount = rateAmount / 100; // Amount in dollars
   var rateUnit = "kWh";
@@ -74,9 +78,9 @@ var loopiter = setInterval(function() {
   var currentRead = currentRead + meterDelta;
 
   // Spliting meterDelta into 3 random parts that add up to meterDelta
-  var sub1 = meterDelta * Math.random();
-  var sub2 = (meterDelta - sub1) * Math.random();
-  var sub3 = meterDelta - sub1 - sub2;
+  var sub1 = meterDelta * Math.random();			// Air Conditioning
+  var sub2 = (meterDelta - sub1) * Math.random();	// Oven
+  var sub3 = meterDelta - sub1 - sub2;				// Entertainment System
 
   // console.log('dateTime: ' + dateTime)
   // console.log('priceType: ' + priceType)
@@ -94,6 +98,15 @@ var loopiter = setInterval(function() {
     min = 0;
     if (hour >= 24)
       hour = 0
+  }
+		
+  if (day == 30) {
+	day = 1
+	month += 1
+	if (month >= 13) {
+	  month = 1
+	  year += 1
+	}
   }
 
   var xrp = 0.45;
