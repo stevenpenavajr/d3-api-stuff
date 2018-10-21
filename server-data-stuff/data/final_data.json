@@ -1,0 +1,27 @@
+{
+	"data":
+	[
+		{
+			"dateTime": "12/16/2006 17:25:00",
+			"priceType": "peak",
+			"rateAmount": .050633,
+			"rateUnit": "kWh",
+			"meterNo": 05504,
+			"currentRead": 6348, 
+			"sub1": ,
+			"sub2": ,
+			"sub3": ,
+		},
+		{
+			"dateTime": "12/16/2006 17:26:00",
+			"priceType": "offPeak",
+			"rateAmount": ,
+			"rateUnit": "kWh",
+			"meterNo": 05504,
+			"currentRead": 6349, 
+			"sub1": ,
+			"sub2": ,
+			"sub3": ,
+		}
+	]
+}
