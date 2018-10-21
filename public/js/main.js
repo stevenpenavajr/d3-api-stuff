@@ -104,7 +104,7 @@ function drawAxisTickColors() {
         ]);
         drawChart();
 			}
-		}, 3000, i++, currentRead);
+		}, 60000, i++, currentRead);
 
     function drawChart() {
         chart.draw(data, options);
