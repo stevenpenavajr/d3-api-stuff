@@ -18,13 +18,13 @@ function drawAxisTickColors() {
             fontSize: 18
         },
         
-        width: 800,
+        width: 700,
         height: 440,
         pieHole: 0.4,
-        chartArea: { 
-            'width': '80%', 
-            'height': '80%',            
-        },
+        // chartArea: { 
+        //     'width': 800, 
+        //     'height': 440,            
+        // },
         backgroundColor: {
             fill: 'transparent',
             stroke: 'transparent'

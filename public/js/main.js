@@ -3,21 +3,25 @@ var hour = 17;
 var min = 30;
 var currentRead = 6348;
 var i = 0;
+
 function drawAxisTickColors() {
     var options = {
-        title:'Total Energy Consumption',
+        title: 'Total Energy Consumption',
         titleTextStyle: {
             color: '#ffffff',
             fontSize: 18
         },
-        
-        width: 600,
-        height: 340,
-        chartArea: {'width': '80%', 'height': '80%'},
+
+        width: 640,
+        height: 405,
+        chartArea: {
+            'width': '80%',
+            'height': '70%',
+        },
         backgroundColor: {
             fill: 'transparent'
         },
-        lineWidth: 10,
+        lineWidth: 5,
         vAxis: {
             minValue: 0,
             maxValue: 0.3,
@@ -65,58 +69,61 @@ function drawAxisTickColors() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Minute');
     data.addColumn('number', 'Usage (kWm)');
-    data.addRow(['17:22:00', 0.0204326 ]);
-    data.addRow(['17:23:00', 0.0204263 ]);
-    data.addRow(['17:24:00', 0.0203326 ]);
-    data.addRow(['17:25:00', 0.02058326 ]);
-    data.addRow(['17:26:00', 0.0204326 ]);
-    data.addRow(['17:27:00', 0.02068326 ]);
-    data.addRow(['17:28:00', 0.02008326 ]);
-    data.addRow(['17:29:00', 0.02048326 ]);
+    data.addRow(['17:22:00', 0.204326]);
+    data.addRow(['17:23:00', 0.34263]);
+    data.addRow(['17:24:00', 0.243326]);
+    data.addRow(['17:25:00', 0.03258326]);
+    data.addRow(['17:26:00', 0.1434326]);
+    data.addRow(['17:27:00', 0.21368326]);
+    data.addRow(['17:28:00', 0.12008326]);
+    data.addRow(['17:29:00', 0.14548326]);
     // var button = document.getElementById('b1');
 
     // setInterval(appendItem, 5000);
-		setInterval(function(i, currentRead){
-			if(i < 60){
-				var rateAmount = Math.random() * Math.floor(20) + 10;	// (0-1) * max + min
-				if (22 < rateAmount <= 30)
-					var priceType = "peak";
-				else
-					var priceType = "off peak";
+    setInterval(function (i, currentRead) {
+        if (i < 60) {
+            var rateAmount = Math.random() * Math.floor(20) + 10; // (0-1) * max + min
+            if (22 < rateAmount <= 30)
+                var priceType = "peak";
+            else
+                var priceType = "off peak";
 
-				var meterDelta = Math.random() * (0.02048326 * 2) + .005;	// 0.02048326 avg kWh/min in USA
-				var dateTime = hour.toString() + ':' + min.toString() + ':00';
-				var priceType = priceType;
-				var rateAmount = rateAmount / 100;	// Amount in dollars
-				var rateUnit = 'kWh';
-				var meterNo = "05504";
-				var currentRead = currentRead + meterDelta;
+            var meterDelta = Math.random() * (0.02048326 * 2) + .005; // 0.02048326 avg kWh/min in USA
+            var dateTime = hour.toString() + ':' + min.toString() + ':00';
+            var priceType = priceType;
+            var rateAmount = rateAmount / 100; // Amount in dollars
+            var rateUnit = 'kWh';
+            var meterNo = "05504";
+            var currentRead = currentRead + meterDelta;
 
-				// Spliting meterDelta into 3 random parts that add up to meterDelta
-				var sub1 = meterDelta * Math.random();
-				var sub2 = (meterDelta - sub1) * Math.random();
-				var sub3 = (meterDelta - sub1) - sub2;
+            // Spliting meterDelta into 3 random parts that add up to meterDelta
+            var sub1 = meterDelta * Math.random();
+            var sub2 = (meterDelta - sub1) * Math.random();
+            var sub3 = (meterDelta - sub1) - sub2;
 
-				min += 1;
-				if (min >= 60) {
-					hour += 1;
-					min = 0;
-				}
-        if (data.getNumberOfRows() > 5) {
-            data.removeRow(0);
+            min += 1;
+            if (min >= 60) {
+                hour += 1;
+                min = 0;
+            }
+            if (data.getNumberOfRows() > 5) {
+                data.removeRow(0);
+            }
+            var y = currentRead;
+            data.insertRows(7, [
+                [dateTime, rateAmount]
+            ]);
+            drawChart();
         }
-        var y = currentRead;
-        data.insertRows(7, [
-            [dateTime, rateAmount]
-        ]);
-        drawChart();
-			}
-		}, 2000, i++, currentRead);
+    }, 10000, i++, currentRead);
 
     function drawChart() {
+        document.getElementById('currentMoney').innerHTML = data.getValue(7, 0);
+        // console.log(data.getValue(7, 1));
         chart.draw(data, options);
     }
     drawChart();
+    
 }
 
 document.addEventListener('DOMContentLoaded', function (event) {
@@ -125,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
         packages: ['corechart', 'line']
     });
     google.charts.setOnLoadCallback(drawAxisTickColors);
-		// simulatedData();
+    // simulatedData();
 
 });
 

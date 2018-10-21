@@ -6,8 +6,8 @@ const path = require('path')
 var https = require('https')
 
 var options = {
-    key: fs.readFileSync( 'localhost.key' ),
-    cert: fs.readFileSync( 'localhost.cert' ),
+    key: fs.readFileSync( 'steven-key.pem' ),
+    cert: fs.readFileSync( 'steven-cert.pem' ),
     requestCert: false,
     rejectUnauthorized: false,
     // hostname: ?
@@ -50,7 +50,7 @@ app.get('/api/c1', (req,res) => {
   res.sendFile('./public/index.html', { root: __dirname })
 });
 app.get('/api/c2', (req,res) => {
-  res.sendFile('./public/index2.html', { root: __dirname });
+  res.sendFile('./public/pie.html', { root: __dirname });
 });
 
 var server = https.createServer( options, app );

@@ -13,11 +13,20 @@
 	<style>
 		.line-chart
 		{
-				border: 1px solid lightgray;
+				/* border: 1px solid lightgray; */
+				border: none;
 		}
 		body {
-			background: #003366;
-			background-image: url(".././bg.png");
+			background: transparent;
+			margin-top: -10px;
+			padding: 0; 
+			/* background-color: blue; */
+			text-align: center;
+			/* background-image: url(".././bg.png"); */
+		}
+
+		#currentMoney {
+			display: none;
 		}
 	  </style>
 
@@ -25,7 +34,8 @@
 <html>
 
   <body>
-	  <div id="visualization"></div>
+		<div id="visualization"></div>
+		<p id="currentMoney"></p>
   </body>
 
 </html>
