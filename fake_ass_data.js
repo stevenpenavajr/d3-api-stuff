@@ -1,10 +1,10 @@
+const util = require('util')
 
 var hour = 17,
 	min = 30,
 	currentRead = 6348;
 
 for (var i=0; i < 60; i++) {
-	var line = '\t\t{\n'
 
 	var rateAmount = Math.random() * Math.floor(20) + 10	// (0-1) * max + min
 	if (22 < rateAmount <= 30)
@@ -14,19 +14,32 @@ for (var i=0; i < 60; i++) {
 
 	var meterDelta = Math.random() * (0.02048326 * 2) + .005	// 0.02048326 avg kWh/min in USA
 
-	var dateTime = '12/16/2007 ' + str(hour) + ':' + str(min) + ':00"'
+	var dateTime = '12/16/2007 ' + hour.toString() + ':' + min.toString() + ':00"'
 	var priceType = priceType
 	var rateAmount = rateAmount / 100	// Amount in dollars
 	var rateUnit = 'kWh'
 	var meterNo = "05504"
-	var currentRead += meterDelta
+	var currentRead = currentRead + meterDelta
 
 	// Spliting meterDelta into 3 random parts that add up to meterDelta
 	var sub1 = meterDelta * Math.random()
 	var sub2 = (meterDelta - sub1) * Math.random()
 	var sub3 = (meterDelta - sub1) - sub2
 
-	if i == 659:
-		line = line.substring(0, line.length-1)
+	console.log('dateTime: ' + dateTime)
+	console.log('priceType: ' + priceType)
+	console.log('rateAmount: ' + rateAmount.toString())
+	console.log('rateUnit: ' + rateUnit)
+	console.log('meterNo: ' + meterNo.toString())
+	console.log('currentRead: ' + currentRead.toString())
+	console.log('sub1: ' + sub1.toString())
+	console.log('sub2: ' + sub2.toString())
+	console.log('sub3: ' + sub3.toString() + '\n')
+
+	min += 1
+	if (min >= 60) {
+		hour += 1
+		min = 0
+	}
 
 }
