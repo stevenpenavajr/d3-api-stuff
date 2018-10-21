@@ -4,6 +4,7 @@ const ilp = require("ilp");
 const spsp = require("ilp-protocol-spsp");
 const debug = require("debug")("ilp-spsp");
 var sleep = require('sleep');
+
 // recipient is the payment pointer
 // amount is 1 XRP = 10^9 units
 async function pay(recipient, amount) {
