@@ -3,25 +3,38 @@ var hour = 17;
 var min = 30;
 var currentRead = 6348;
 var i = 0;
+var SUB1_SUM = 0.23  // 0.0013763804728731193  OVE
+var SUB2_SUM = 0.49 // 0.00829282948786613 // AC
+var SUB3_SUM = 0.28 // 0.004981089722375572 // TV
+
+/*
+0.020690063140724472 0.0009816686438060584 0.002635080761982451 */
+
 function drawAxisTickColors() {
     var options = {
-        title:'Total Energy Consumption',
+        title:'Energy Consumption by Medium',
         titleTextStyle: {
             color: '#ffffff',
             fontSize: 18
         },
         
-        width: 600,
-        height: 340,
-        chartArea: {'width': '80%', 'height': '80%'},
+        width: 800,
+        height: 440,
+        pieHole: 0.4,
+        chartArea: { 
+            'width': '80%', 
+            'height': '80%',            
+        },
         backgroundColor: {
-            fill: 'transparent'
+            fill: 'transparent',
+            stroke: 'transparent'
         },
         lineWidth: 10,
         vAxis: {
             minValue: 0,
             maxValue: 0.3,
             title: 'Usage (kWh)',
+            
             textStyle: {
                 color: 'white'
             },
@@ -44,18 +57,19 @@ function drawAxisTickColors() {
         },
         animation: {
             duration: 1000,
-            easing: 'in'
+            easing: 'in',
+            startup: true
         },
         legend: {
-            position: 'none',
+            position: 'right',
             textStyle: {
                 color: 'white'
             }
         },
-        colors: ['#51ff0d']
+        slices: [{color: '#A8D7FA'}, {color: '#FFC200'}, {color: '#330EC7'}]
     };
-
-    var chart = new google.visualization.LineChart(document.getElementById('visualization'));
+    
+    var chart = new google.visualization.PieChart(document.getElementById('visualizationPie'));
 
     google.visualization.events.addListener(chart, 'ready', function () {
         var chartFont = 'Helvetica';
@@ -65,14 +79,9 @@ function drawAxisTickColors() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Minute');
     data.addColumn('number', 'Usage (kWm)');
-    data.addRow(['17:22:00', 0.0204326 ]);
-    data.addRow(['17:23:00', 0.0204263 ]);
-    data.addRow(['17:24:00', 0.0203326 ]);
-    data.addRow(['17:25:00', 0.02058326 ]);
-    data.addRow(['17:26:00', 0.0204326 ]);
-    data.addRow(['17:27:00', 0.02068326 ]);
-    data.addRow(['17:28:00', 0.02008326 ]);
-    data.addRow(['17:29:00', 0.02048326 ]);
+    data.addRow(['Air Conditioning', 0.49 ]);
+    data.addRow(['Oven', 0.23 ]);
+    data.addRow(['Entertainment Systems', 0.28 ]);
     // var button = document.getElementById('b1');
 
     // setInterval(appendItem, 5000);
@@ -95,7 +104,11 @@ function drawAxisTickColors() {
 				// Spliting meterDelta into 3 random parts that add up to meterDelta
 				var sub1 = meterDelta * Math.random();
 				var sub2 = (meterDelta - sub1) * Math.random();
-				var sub3 = (meterDelta - sub1) - sub2;
+                var sub3 = (meterDelta - sub1) - sub2;
+                
+                SUB1_SUM = SUB1_SUM + sub1
+                SUB2_SUM = SUB2_SUM + sub2
+                SUB3_SUM = SUB3_SUM + sub3
 
 				min += 1;
 				if (min >= 60) {
@@ -106,12 +119,16 @@ function drawAxisTickColors() {
             data.removeRow(0);
         }
         var y = currentRead;
-        data.insertRows(7, [
-            [dateTime, rateAmount]
-        ]);
+        // data.insertRows(0, [
+        //     [dateTime, rateAmount]
+        // ]);
+        data.setCell(0,1,SUB2_SUM); // ac
+        data.setCell(1,1,SUB1_SUM); // oven
+        data.setCell(2,1,SUB3_SUM); // tv
+        // console.log(data);
         drawChart();
 			}
-		}, 2000, i++, currentRead);
+		}, 1000, i++, currentRead);
 
     function drawChart() {
         chart.draw(data, options);
