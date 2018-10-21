@@ -69,6 +69,11 @@ var loopiter = setInterval(function() {
 
   var meterDelta = Math.random() * (0.02048326 * 2) + 0.005; // 0.02048326 avg kWh/min in USA
 
+  var mnth = month
+  var dy = day
+  var hr = hour
+  var mn = min
+
   var dateTime = month.toString() + "/" + day.toString() + "/" +
 				year.toString() + hour.toString() + ":" + min.toString() + ':00"';
   var priceType = priceType;
