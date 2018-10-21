@@ -3,6 +3,17 @@ const bodyParser = require('body-parser')
 const fs = require('fs')
 const app = express()
 const path = require('path')
+var https = require('https')
+
+var options = {
+    key: fs.readFileSync( 'localhost.key' ),
+    cert: fs.readFileSync( 'localhost.cert' ),
+    requestCert: false,
+    rejectUnauthorized: false,
+    // hostname: ?
+};
+var port = process.env.PORT || 5000;
+
 app.use(express.static(path.join(__dirname + 'public')));
 
 function writeJSONFile(path, data, callback){
@@ -42,4 +53,7 @@ app.get('/api/c2', (req,res) => {
   res.sendFile('./public/index2.html', { root: __dirname });
 });
 
-app.listen(3000, () => console.log('Server running on port 3000'))
+var server = https.createServer( options, app );
+server.listen( port, '0.0.0.0', function () {
+    console.log( 'Express server listening on port ' + server.address().port );
+});
